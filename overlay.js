@@ -16,11 +16,11 @@ function instalar() {
     .demo-ripple{position:fixed;border-radius:50%;border:3px solid #ff3b30;z-index:2147483646;pointer-events:none;transform:translate(-50%,-50%);animation:demo-r .6s ease-out forwards}
     @keyframes demo-r{from{opacity:1;width:12px;height:12px}to{opacity:0;width:70px;height:70px}}
     #demo-hl{position:fixed;z-index:2147483645;pointer-events:none;border:3px solid #ff3b30;border-radius:6px;box-shadow:0 0 0 5px rgba(255,59,48,.25);display:none}
-    #demo-cap{position:fixed;left:0;right:0;bottom:0;z-index:2147483644;background:rgba(15,23,42,.95);color:#fff;font:17px/1.4 system-ui,-apple-system,Segoe UI,sans-serif;padding:10px 28px 12px;pointer-events:none;min-height:84px;border-top:3px solid #3b82f6}
-    #demo-cap .blq{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#8fb8ff;margin-bottom:2px}
+    #demo-cap{position:fixed;left:0;right:0;bottom:0;z-index:2147483644;background:rgba(15,23,42,.95);color:#fff;font:21px/1.4 system-ui,-apple-system,Segoe UI,sans-serif;padding:10px 28px 12px;pointer-events:none;min-height:100px;border-top:3px solid #3b82f6}
+    #demo-cap .blq{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#8fb8ff;margin-bottom:2px}
     #demo-cap .hace{font-weight:600}
     #demo-cap .dem{color:#ffd60a}
-    body{padding-bottom:120px !important}`;
+    body{padding-bottom:140px !important}`;
   root.appendChild(st);
   const cur = document.createElement('div');
   cur.id = 'demo-cursor';

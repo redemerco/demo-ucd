@@ -17,7 +17,7 @@ export UCD_DIR=~/Proyectos/UCD          # carpeta del repo de UCD
 (cd $UCD_DIR && dotnet run --project src/UCD.WebApp --urls http://localhost:5099) &
 caffeinate -dimsu node demo.js          # graba en ./salida (video, capturas y tiempos)
 ```
-- `RITMO=0.3 SLOWMO=0 node demo.js` hace una corrida rápida para probar cambios.
+- `RITMO` escala las pausas (por defecto 0.8; ≈12 min de video). `RITMO=0.3 SLOWMO=0 node demo.js` hace una corrida rápida para probar cambios.
 - `VER=1` abre el navegador visible.
 - `TRAZA=1` imprime cada paso al empezar.
 - Antes de cada grabación hay que correr `./reset.sh`: la demo modifica la base.

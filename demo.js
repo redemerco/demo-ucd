@@ -20,7 +20,7 @@ const U = {
   joaquin: ['joaquin.ramos@ort.edu.uy', CLAVE],
 };
 
-const RITMO = Number(process.env.RITMO || 1); // 1 = normal; 0.5 = más rápido para pruebas
+const RITMO = Number(process.env.RITMO || 0.8); // 1 = normal; 0.5 = más rápido para pruebas
 const t0 = Date.now();
 const tiempos = [];
 const fallas = [];
@@ -38,10 +38,10 @@ async function paso(nombre, fn) {
   pasoActual = nombre;
   if (process.env.TRAZA) console.log('   >', nombre);
   const ley = leyendaDe(nombre);
-  if (ley) { await poner(ley[0], ley[1]); await espera(2200); } // tiempo para leer el pie antes de actuar
+  if (ley) { await poner(ley[0], ley[1]); await espera(1700); } // tiempo para leer el pie antes de actuar
   try { await fn(); }
   catch (e) { fallas.push(`${mm()} ${nombre}: ${e.message.split('\n')[0]}`); console.log('  FALLA', nombre, '-', e.message.split('\n')[0]); }
-  await espera(900);
+  await espera(500);
 }
 
 const menu = (href) => paso(`menú ${href}`, async () => { await clic(page.locator(`nav a[href="${href}"]`)); await page.waitForLoadState('networkidle'); await page.locator('h1').first().waitFor(); await espera(2000); });
@@ -49,13 +49,13 @@ const menu = (href) => paso(`menú ${href}`, async () => { await clic(page.locat
 const moverA = async (loc) => {
   await loc.scrollIntoViewIfNeeded();
   let b = await loc.boundingBox(); if (!b) return;
-  if (b.y + b.height > 900 - 140) { await loc.evaluate((e) => e.scrollIntoView({ block: 'center' })); await espera(300); b = await loc.boundingBox(); } // que el pie no tape el elemento
+  if (b.y + b.height > 900 - 170) { await loc.evaluate((e) => e.scrollIntoView({ block: 'center' })); await espera(300); b = await loc.boundingBox(); } // que el pie no tape el elemento
   await page.mouse.move(b.x + Math.min(b.width / 2, 120), b.y + b.height / 2, { steps: 22 });
   await page.evaluate(([x, y, w, h]) => window.__demoResaltar && window.__demoResaltar(x, y, w, h), [b.x, b.y, b.width, b.height]).catch(() => {});
-  await espera(650);
+  await espera(400);
 };
 const limpiarRecuadro = () => page.evaluate(() => window.__demoLimpiar && window.__demoLimpiar()).catch(() => {});
-const escribir = async (sel, txt) => { const l = page.locator(sel); await moverA(l); await l.click(); await limpiarRecuadro(); await l.fill(''); await l.pressSequentially(txt, { delay: 45 }); };
+const escribir = async (sel, txt) => { const l = page.locator(sel); await moverA(l); await l.click(); await limpiarRecuadro(); await l.fill(''); await l.pressSequentially(txt, { delay: 30 }); };
 const clic = async (loc) => { for (let i = 0; i < 3; i++) { try { await moverA(loc); await loc.click(); await limpiarRecuadro(); await espera(250); return; } catch (e) { if (i == 2) throw e; await espera(700); } } };
 const elegir = async (selectLoc, regex) => {
   const opts = await selectLoc.locator('option').allTextContents();
@@ -70,10 +70,10 @@ const foto = async () => { // captura de evidencia sin mensaje
 };
 const mostrarMensaje = async () => {
   await page.locator('.alert:visible').last().evaluate((e) => e.scrollIntoView({ block: 'center' })).catch(() => {}); // .alert:visible evita el #blazor-error-ui oculto (también tiene role=alert)
-  await espera(900);
+  await espera(700);
   fs.mkdirSync('capturas', { recursive: true });
   await page.screenshot({ path: `capturas/${String(++nCaptura).padStart(3, '0')}-${pasoActual.replace(/[^a-zA-Z0-9áéíóúñ]+/g, '_')}.png` }).catch(() => {});
-  await espera(1300);
+  await espera(1100);
 };
 
 async function ingresar([email, clave]) {
