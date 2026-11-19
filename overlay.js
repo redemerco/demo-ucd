@@ -3,6 +3,11 @@
 
 function instalar() {
   if (window.__demoOverlay) return;
+  if (!document.documentElement) { // en document_start todavía no existe <html>: se espera a que aparezca
+    const o = new MutationObserver(() => { if (document.documentElement) { o.disconnect(); instalar(); } });
+    o.observe(document, { childList: true });
+    return;
+  }
   window.__demoOverlay = true;
   const root = document.documentElement;
   const st = document.createElement('style');
